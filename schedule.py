@@ -89,8 +89,24 @@ def set_deadline():
 def delete_item():
     my_list.delete(ANCHOR)
 
+
 def add_item():
-    my_list.insert(END,my_entry.get())
+    item = ""
+    position_status = my_entry.get()
+    position = None
+    try:
+        position =  int(position_status[0:2])
+        item = my_entry.get()[3:]
+        print(position)
+    except Exception:
+        print("except")
+        position = position_status[0:3]
+        item = my_entry.get()[3:]
+        print(position_status)
+        print(position)
+
+    
+    my_list.insert(position,item)
     my_entry.delete(0,END)
 
 def cross_off_item():
@@ -185,7 +201,7 @@ my_frame.pack(pady=10)
 
 my_list = Listbox(my_frame,
     font=("Comic Sans MS",30),
-    width=25, 
+    width=50, 
     height=5,
     bg="SystemButtonFace",
     bd = 0,
