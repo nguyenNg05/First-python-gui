@@ -170,7 +170,7 @@ def un_hang():
 
 root = Tk()
 root.title("Schedule")
-root.iconbitmap("D:\\nguyên\\learn\\schedule\\lg.ico")
+root.iconbitmap("lg.ico")
 
 
 my_font = Font(
