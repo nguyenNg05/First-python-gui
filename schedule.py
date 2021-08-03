@@ -95,19 +95,25 @@ def add_item():
     position_status = my_entry.get()
     position = None
     try:
-        position =  int(position_status[0:2])
-        item = my_entry.get()[3:]
-        print(position)
+        if position_status[-3] == " ":
+            position =  int(position_status[-1:-3:-1][::-1])
+            item = my_entry.get()[-4::-1][::-1]
+            print(position)
+            my_list.insert(position,item)
+            my_entry.delete(0,END)
+        else:
+            my_list.insert(END,position_status)
+            my_entry.delete(0,END)
+
     except Exception:
         print("except")
-        position = position_status[0:3]
-        item = my_entry.get()[3:]
+        item = my_entry.get()
         print(position_status)
-        print(position)
+        my_list.insert(END,item)
+        my_entry.delete(0,END)
 
     
-    my_list.insert(position,item)
-    my_entry.delete(0,END)
+    
 
 def cross_off_item():
     my_list.itemconfig(
@@ -182,6 +188,12 @@ def un_hang():
     root.overrideredirect(False)
     hang_button.config(text="hang",command=hang)
 
+def config_item():
+    my_list.insert(my_list.curselection(),my_entry.get())
+
+    my_list.delete(ANCHOR)
+    my_entry.delete(0,END)
+
 
 
 root = Tk()
@@ -247,7 +259,7 @@ delete_cross_button = Button(button_frame,text="Delete cross",command=delete_cro
 set_button = Button(button_frame,text="Set",command=set_deadline,font=("Comic Sans MS",15))
 off_button = Button(root,text="Change display mode",command=off,font=("Comic Sans MS",15))
 hang_button = Button(root,text="Hang mode",command=hang,font=("Comic Sans MS",15))
-
+config_button = Button(root,text="Config task",command=config_item,font=("Comic Sans MS",15))
 
 delete_button.grid(row=0,column=0,pady=10)
 add_button.grid(row=0,column=1,padx=20,pady=10)
@@ -255,8 +267,9 @@ cross_button.grid(row=0,column=2,pady=10)
 uncross_button.grid(row=1,column=0,padx=20)
 set_button.grid(row=1,column=1)
 delete_cross_button.grid(row=1,column=2)
-off_button.pack(side=LEFT,pady=20)
-hang_button.pack(side=LEFT,padx=20)
+off_button.pack(side=LEFT,padx=20,pady=20)
+hang_button.pack(side=LEFT)
+config_button.pack(side=LEFT,padx=20)
 
 clock_label = Label(root,text="",font=("Comic Sans MS",20,"bold"))
 clock_label.pack(side=BOTTOM)
